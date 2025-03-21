@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Novelnest Bookstore</title>
+    <style>
+        /* Reuse the same styles from the home page */
+        :root {
+            --primary-color: #4169E1;
+            --text-color: #0a1635;
+            --bg-color: #f0f4ff;
+            --card-bg: #ffffff;
+            --secondary-text: #555;
+            --discount-color: #888;
+            --star-color: #FFD700;
+        }
+
+        .dark-mode {
+            --primary-color: #5d7de9;
+            --text-color: #e4e9f7;
+            --bg-color: #121a2e;
+            --card-bg: #1a2440;
+            --secondary-text: #bbc;
+            --discount-color: #aaa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: var(--bg-color);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-icons button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: 1rem;
+            color: var(--text-color);
+            font-size: 1.2rem;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 5rem auto;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 0.5rem;
+        }
+
+        .remember-me label {
+            color: var(--text-color);
+        }
+
+        .forgot-password {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .login-button {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: #3050c0;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text-color);
+        }
+
+        .register-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .login-error {
+            color: #e74c3c;
+            background-color: rgba(231, 76, 60, 0.1);
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .forgot-message {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .forgot-message.success {
+            color: #2ecc71;
+            background-color: rgba(46, 204, 113, 0.1);
+            display: block;
+        }
+
+        .reset-info {
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="📚"></i> Novelnest Bookstore
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Featured</a></li>
+                <li><a href="#">Discount</a></li>
+                <li><a href="#">New Books</a></li>
+                <li><a href="#">Testimonial</a></li>
+            </ul>
+        </nav>
+        <div class="nav-icons">
+            <button onclick="showSearch()">🔍</button>
+            <button onclick="showLogin()">👤</button>
+            <button onclick="toggleDarkMode()">
+                <span id="theme-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div class="login-container">
+            <h2>Login to Novelnest</h2>
+            <div class="login-error" id="loginError"></div>
+            <form class="login-form" onsubmit="validateLogin(event)">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password">
+                </div>
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-password" onclick="showForgotPassword(); return false;">Forgot password?</a>
+                </div>
+                <button type="submit" class="login-button">Login</button>
+                <div class="register-link">
+                    Don't have an account? <a href="#" onclick="showRegister(); return false;">Register</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Reuse the same JavaScript functions from the home page
+        const users = [
+            { username: 'user1', password: 'password1', email: 'user1@example.com' },
+            { username: 'user2', password: 'password2', email: 'user2@example.com' }
+        ];
+
+        function showLogin() {
+            document.getElementById('loginModal').classList.add('active');
+            document.getElementById('username').focus();
+        }
+
+        function closeLogin() {
+            document.getElementById('loginModal').classList.remove('active');
+            document.getElementById('loginError').style.display = 'none';
+            document.getElementById('loginError').textContent = '';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        function validateLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const loginError = document.getElementById('loginError');
+            
+            const user = users.find(u => u.username === username);
+            
+            if (!user) {
+                loginError.textContent = 'Username not found. Please try again.';
+                loginError.style.display = 'block';
+                return;
+            }
+            
+            if (user.password !== password) {
+                loginError.textContent = 'Incorrect password. Please try again.';
+                loginError.style.display = 'block';
+                return;
+            }
+            
+            loginError.style.display = 'none';
+            closeLogin();
+            
+            const userIcon = document.querySelector('.nav-icons button:nth-child(2)');
+            userIcon.textContent = '✓';
+            
+            alert(`Welcome back, ${username}!`);
+        }
+
+        function showForgotPassword() {
+            closeLogin();
+            document.getElementById('forgotPasswordModal').classList.add('active');
+            document.getElementById('resetEmail').focus();
+        }
+
+        function closeForgotPassword() {
+            document.getElementById('forgotPasswordModal').classList.remove('active');
+            document.getElementById('forgotMessage').className = 'forgot-message';
+            document.getElementById('forgotMessage').textContent = '';
+            document.getElementById('resetEmail').value = '';
+        }
+
+        function resetPassword(event) {
+            event.preventDefault();
+            const email = document.getElementById('resetEmail').value;
+            const forgotMessage = document.getElementById('forgotMessage');
+            
+            const user = users.find(u => u.email === email);
+            
+            forgotMessage.textContent = 'If an account exists with this email, you will receive a password reset link shortly.';
+            forgotMessage.className = 'forgot-message success';
+            
+            setTimeout(() => {
+                closeForgotPassword();
+                showLogin();
+            }, 3000);
+        }
+
+        function backToLogin() {
+            closeForgotPassword();
+            showLogin();
+        }
+
+        function showRegister() {
+            closeLogin();
+            alert('The registration feature is coming soon!');
+        }
+
+        function toggleDarkMode() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                themeIcon.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-mode');
+                themeIcon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        function checkTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeIcon.textContent = '☀️';
+            }
+        }
+
+        window.onload = function() {
+            checkTheme();
+        };
+    </script>
+</body>
+</html>
