@@ -1,0 +1,99 @@
+.feature-notification {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 15px 20px;
+    max-width: 400px;
+    z-index: 1000;
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .feature-notification.hidden {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  
+  .feature-notification-icon {
+    background-color: #4a90e2;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+  }
+  
+  .feature-notification-content {
+    flex: 1;
+  }
+  
+  .feature-notification-content h3 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .feature-notification-content p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .feature-notification-close {
+    background: transparent;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .feature-notification-close:hover {
+    color: #333;
+  }
+  
+  /* Dark mode support */
+  @media (prefers-color-scheme: dark) {
+    .feature-notification {
+      background-color: #333;
+    }
+    
+    .feature-notification-content h3 {
+      color: #fff;
+    }
+    
+    .feature-notification-content p {
+      color: #ccc;
+    }
+    
+    .feature-notification-close {
+      color: #aaa;
+    }
+    
+    .feature-notification-close:hover {
+      color: #fff;
+    }
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 480px) {
+    .feature-notification {
+      bottom: 20px;
+      right: 20px;
+      left: 20px;
+      max-width: none;
+    }
+  }

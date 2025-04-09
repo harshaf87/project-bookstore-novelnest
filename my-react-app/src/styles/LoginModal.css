@@ -1,0 +1,266 @@
+.login-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  .login-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .login-modal {
+    background-color: #fff;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+  }
+  
+  .login-modal-overlay.active .login-modal {
+    transform: translateY(0);
+  }
+  
+  .login-modal-header {
+    padding: 20px;
+    border-bottom: 1px solid #eaeaea;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .login-modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: #777;
+    font-size: 20px;
+    line-height: 1;
+  }
+  
+  .login-modal-body {
+    padding: 20px;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 8px;
+  }
+  
+  .form-input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.2s ease;
+  }
+  
+  .form-input:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+  }
+  
+  .forgot-password {
+    align-self: flex-end;
+    color: #4a90e2;
+    font-size: 14px;
+    text-decoration: none;
+    margin-top: 5px;
+    cursor: pointer;
+  }
+  
+  .forgot-password:hover {
+    text-decoration: underline;
+  }
+  
+  .login-modal-footer {
+    padding: 20px;
+    border-top: 1px solid #eaeaea;
+  }
+  
+  .submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .submit-button:hover {
+    background-color: #3a7fcf;
+  }
+  
+  .submit-button:disabled {
+    background-color: #a0c4f1;
+    cursor: not-allowed;
+  }
+  
+  .divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background-color: #eaeaea;
+  }
+  
+  .divider-text {
+    margin: 0 15px;
+    color: #777;
+    font-size: 14px;
+  }
+  
+  .social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .social-button {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .social-button:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .social-icon {
+    margin-right: 10px;
+  }
+  
+  .create-account {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .signup-link {
+    color: #4a90e2;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .signup-link:hover {
+    text-decoration: underline;
+  }
+  
+  .error-message {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+  /* Dark mode styles */
+  @media (prefers-color-scheme: dark) {
+    .login-modal {
+      background-color: #2a2a2a;
+    }
+    
+    .login-modal-header,
+    .login-modal-footer {
+      border-color: #444;
+    }
+    
+    .login-modal-title {
+      color: #eee;
+    }
+    
+    .close-button {
+      color: #aaa;
+    }
+    
+    .form-label {
+      color: #ccc;
+    }
+    
+    .form-input {
+      background-color: #333;
+      border-color: #444;
+      color: #eee;
+    }
+    
+    .divider-line {
+      background-color: #444;
+    }
+    
+    .divider-text {
+      color: #aaa;
+    }
+    
+    .social-button {
+      background-color: #333;
+      border-color: #444;
+      color: #eee;
+    }
+    
+    .social-button:hover {
+      background-color: #444;
+    }
+    
+    .create-account {
+      color: #aaa;
+    }
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 480px) {
+    .login-modal {
+      max-width: 95%;
+      margin: 0 10px;
+    }
+  }
