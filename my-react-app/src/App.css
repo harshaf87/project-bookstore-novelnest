@@ -1,0 +1,33 @@
+:root {
+    --primary-color: #4169E1;
+    --text-color: #0a1635;
+    --bg-color: #f0f4ff;
+    --card-bg: #ffffff;
+    --secondary-text: #555;
+    --discount-color: #888;
+    --star-color: #FFD700;
+  }
+  
+  .dark-mode {
+    --primary-color: #5d7de9;
+    --text-color: #e4e9f7;
+    --bg-color: #121a2e;
+    --card-bg: #1a2440;
+    --secondary-text: #bbc;
+    --discount-color: #aaa;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* This CSS contains only the base styling - component-specific styles are included in their respective components */

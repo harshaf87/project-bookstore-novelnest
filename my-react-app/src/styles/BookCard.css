@@ -1,0 +1,147 @@
+.book-card {
+    width: 100%;
+    max-width: 280px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+    margin-bottom: 20px;
+  }
+  
+  .book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .book-cover-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 150%; /* For book cover aspect ratio */
+    overflow: hidden;
+  }
+  
+  .book-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .book-card:hover .book-cover {
+    transform: scale(1.05);
+  }
+  
+  .book-info {
+    padding: 15px;
+  }
+  
+  .book-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 5px 0;
+    color: #333;
+    line-height: 1.3;
+  }
+  
+  .book-author {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 10px 0;
+  }
+  
+  .book-price-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .book-price {
+    font-size: 18px;
+    font-weight: 600;
+    color: #4a90e2;
+  }
+  
+  .book-original-price {
+    font-size: 14px;
+    color: #999;
+    text-decoration: line-through;
+    margin-left: 5px;
+  }
+  
+  .book-discount {
+    background-color: #e94560;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  .add-to-cart-btn {
+    width: 100%;
+    padding: 10px 0;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .add-to-cart-btn svg {
+    margin-right: 5px;
+  }
+  
+  .add-to-cart-btn:hover {
+    background-color: #3a7fcf;
+  }
+  
+  .book-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .rating-stars {
+    color: #ffc107;
+    margin-right: 5px;
+  }
+  
+  .rating-count {
+    font-size: 12px;
+    color: #777;
+  }
+  
+  /* Dark mode styles */
+  @media (prefers-color-scheme: dark) {
+    .book-card {
+      background-color: #2a2a2a;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .book-title {
+      color: #eee;
+    }
+    
+    .book-author {
+      color: #aaa;
+    }
+    
+    .add-to-cart-btn {
+      background-color: #4a90e2;
+    }
+    
+    .add-to-cart-btn:hover {
+      background-color: #3a7fcf;
+    }
+  }

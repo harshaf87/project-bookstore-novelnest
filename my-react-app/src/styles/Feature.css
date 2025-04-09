@@ -1,0 +1,36 @@
+.features {
+    display: flex;
+    justify-content: space-around;
+    padding: 3rem 5%;
+    text-align: center;
+  }
+  
+  .feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px;
+  }
+  
+  .feature-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+  }
+  
+  .feature h3 {
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+  }
+  
+  .feature p {
+    color: var(--secondary-text);
+  }
+  
+  @media (max-width: 768px) {
+    .features {
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+  }
