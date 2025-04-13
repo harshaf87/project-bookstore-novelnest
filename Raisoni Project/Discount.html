@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discount Offers - NovelNest Bookstore</title>
+    <style>
+        :root {
+            --primary-color: #4169E1;
+            --text-color: #0a1635;
+            --bg-color: #f0f4ff;
+            --card-bg: #ffffff;
+            --secondary-text: #555;
+            --discount-color: #888;
+            --star-color: #FFD700;
+            --accent-color: #e74c3c;
+            --offer-bg: #e8f4ff;
+            --timer-bg: #ffe8e8;
+        }
+
+        .dark-mode {
+            --primary-color: #5d7de9;
+            --text-color: #e4e9f7;
+            --bg-color: #121a2e;
+            --card-bg: #1a2440;
+            --secondary-text: #bbc;
+            --discount-color: #aaa;
+            --accent-color: #ff6b6b;
+            --offer-bg: #1e2c4a;
+            --timer-bg: #3a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: var(--bg-color);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-icons button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: 1rem;
+            color: var(--text-color);
+            font-size: 1.2rem;
+        }
+
+        /* Main discount section styles */
+        .page-title {
+            text-align: center;
+            margin: 2rem 0;
+            color: var(--text-color);
+            font-size: 2.5rem;
+        }
+
+        .discount-hero {
+            background-color: var(--card-bg);
+            padding: 3rem 5%;
+            text-align: center;
+            margin-bottom: 3rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .discount-hero h2 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .discount-hero p {
+            font-size: 1.2rem;
+            color: var(--secondary-text);
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .time-box {
+            background-color: var(--timer-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            min-width: 80px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .time-box .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .time-box .label {
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .discount-btn {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .discount-btn:hover {
+            background-color: #c0392b;
+        }
+
+        /* Bank offers section */
+        .bank-offers {
+            padding: 2rem 5%;
+            max-width: 1200px;
+            margin: 0 auto 3rem auto;
+        }
+
+        .bank-offers h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+            font-size: 2rem;
+        }
+
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .offer-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .offer-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .offer-header {
+            background-color: var(--offer-bg);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .offer-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .offer-header p {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .offer-body {
+            padding: 1.5rem;
+        }
+
+        .offer-body .bank-logo {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 3rem;
+        }
+
+        .offer-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .offer-details p {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .offer-details ul {
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .offer-details li {
+            margin-bottom: 0.5rem;
+            color: var(--secondary-text);
+        }
+
+        .offer-code {
+            background-color: var(--bg-color);
+            padding: 0.8rem;
+            border-radius: 4px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .offer-code p {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .offer-code strong {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            color: var(--primary-color);
+        }
+
+        .claim-offer {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .claim-offer:hover {
+            background-color: #3050c0;
+        }
+
+        /* Special deals section */
+        .special-deals {
+            padding: 2rem 5%;
+            max-width: 1200px;
+            margin: 0 auto 3rem auto;
+        }
+
+        .special-deals h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+            font-size: 2rem;
+        }
+
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .deal-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .deal-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .deal-image {
+            height: 200px;
+            background-color: var(--offer-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .deal-image span {
+            font-size: 5rem;
+            color: var(--primary-color);
+        }
+
+        .deal-content {
+            padding: 1.5rem;
+        }
+
+        .deal-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .deal-content p {
+            color: var(--secondary-text);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .deal-footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            background-color: var(--offer-bg);
+            align-items: center;
+        }
+
+        .deal-price {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: var(--discount-color);
+            font-size: 0.9rem;
+        }
+
+        .current-price {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+
+        .buy-now {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .buy-now:hover {
+            background-color: #3050c0;
+        }
+
+        /* Feature under development notification */
+        .feature-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 400px;
+            text-align: center;
+            display: none;
+        }
+
+        .feature-notification h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .feature-notification p {
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .feature-notification button {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .countdown {
+                flex-wrap: wrap;
+            }
+
+            .time-box {
+                min-width: 70px;
+            }
+
+            .offers-grid, .deals-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="📚"></i> Novelnest Bookstore
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#" onclick="showFeatureInDevelopment('Featured Books', 'Our featured books section is coming soon! We are carefully selecting the best titles for you.'); return false;">Featured</a></li>
+                <li><a href="Discount.html" class="active">Discount</a></li>
+                <li><a href="index.html#new-books">New Books</a></li>
+                <li><a href="Testimonial.html">Testimonial</a></li>
+            </ul>
+        </nav>
+        <div class="nav-icons">
+            <button onclick="showSearch()">🔍</button>
+            <button onclick="showFeatureInDevelopment('User Account', 'The user account feature is under development. Soon you will be able to create an account and track your orders!'); return false;">👤</button>
+            <button onclick="toggleDarkMode()">
+                <span id="theme-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="page-title">Exclusive Discount Offers</h1>
+        
+        <!-- Sale Countdown Section -->
+        <section class="discount-hero">
+            <h2>Summer Reading Festival</h2>
+            <p>Get up to 50% off on bestselling books! Our biggest sale of the year ends soon. Don't miss out on these amazing deals on thousands of titles across all genres.</p>
+            
+            <div class="countdown" id="countdown">
+                <div class="time-box">
+                    <div class="number" id="days">03</div>
+                    <div class="label">Days</div>
+                </div>
+                <div class="time-box">
+                    <div class="number" id="hours">12</div>
+                    <div class="label">Hours</div>
+                </div>
+                <div class="time-box">
+                    <div class="number" id="minutes">45</div>
+                    <div class="label">Minutes</div>
+                </div>
+                <div class="time-box">
+                    <div class="number" id="seconds">22</div>
+                    <div class="label">Seconds</div>
+                </div>
+            </div>
+            
+            <button class="discount-btn" onclick="showPage('new-books'); return false;">Shop Now</button>
+        </section>
+        
+        <!-- Bank Offers Section -->
+        <section class="bank-offers">
+            <h2>Exclusive Bank Offers</h2>
+            
+            <div class="offers-grid">
+                <!-- HDFC Bank Offer -->
+                <div class="offer-card">
+                    <div class="offer-header">
+                        <h3>HDFC Bank</h3>
+                        <p>10% OFF</p>
+                    </div>
+                    <div class="offer-body">
+                        <div class="bank-logo">🏦</div>
+                        <div class="offer-details">
+                            <p>Get 10% instant discount on all book purchases using HDFC Bank Credit or Debit cards.</p>
+                            <ul>
+                                <li>Minimum purchase: ₹899</li>
+                                <li>Maximum discount: ₹500</li>
+                                <li>Valid till: April 30, 2025</li>
+                            </ul>
+                        </div>
+                        <div class="offer-code">
+                            <p>Use Code:</p>
+                            <strong>HDFC10</strong>
+                        </div>
+                        <button class="claim-offer" onclick="showFeatureInDevelopment('HDFC Offer', 'This offer will be applied at checkout. Continue shopping to add books to your cart!'); return false;">Claim Offer</button>
+                    </div>
+                </div>
+                
+                <!-- SBI Bank Offer -->
+                <div class="offer-card">
+                    <div class="offer-header">
+                        <h3>SBI Card</h3>
+                        <p>12% OFF</p>
+                    </div>
+                    <div class="offer-body">
+                        <div class="bank-logo">💳</div>
+                        <div class="offer-details">
+                            <p>Enjoy 12% discount on premium book collections with SBI Credit Cards.</p>
+                            <ul>
+                                <li>Minimum purchase: ₹1499</li>
+                                <li>Maximum discount: ₹750</li>
+                                <li>Valid till: April 15, 2025</li>
+                            </ul>
+                        </div>
+                        <div class="offer-code">
+                            <p>Use Code:</p>
+                            <strong>SBI12</strong>
+                        </div>
+                        <button class="claim-offer" onclick="showFeatureInDevelopment('SBI Offer', 'This offer will be applied at checkout. Continue shopping to add books to your cart!'); return false;">Claim Offer</button>
+                    </div>
+                </div>
+                
+                <!-- ICICI Bank Offer -->
+                <div class="offer-card">
+                    <div class="offer-header">
+                        <h3>ICICI Bank</h3>
+                        <p>15% OFF</p>
+                    </div>
+                    <div class="offer-body">
+                        <div class="bank-logo">🏛️</div>
+                        <div class="offer-details">
+                            <p>ICICI Bank customers get exclusive 15% off on educational and academic books.</p>
+                            <ul>
+                                <li>Minimum purchase: ₹1999</li>
+                                <li>Maximum discount: ₹1000</li>
+                                <li>Valid till: May 10, 2025</li>
+                            </ul>
+                        </div>
+                        <div class="offer-code">
+                            <p>Use Code:</p>
+                            <strong>ICICI15</strong>
+                        </div>
+                        <button class="claim-offer" onclick="showFeatureInDevelopment('ICICI Offer', 'This offer will be applied at checkout. Continue shopping to add books to your cart!'); return false;">Claim Offer</button>
+                    </div>
+                </div>
+                
+                <!-- Axis Bank Offer -->
+                <div class="offer-card">
+                    <div class="offer-header">
+                        <h3>Axis Bank</h3>
+                        <p>8% OFF</p>
+                    </div>
+                    <div class="offer-body">
+                        <div class="bank-logo">🏦</div>
+                        <div class="offer-details">
+                            <p>Get 8% cashback on all fiction & non-fiction bestsellers with Axis Bank cards.</p>
+                            <ul>
+                                <li>Minimum purchase: ₹749</li>
+                                <li>Maximum cashback: ₹600</li>
+                                <li>Valid till: April 25, 2025</li>
+                            </ul>
+                        </div>
+                        <div class="offer-code">
+                            <p>Use Code:</p>
+                            <strong>AXIS8</strong>
+                        </div>
+                        <button class="claim-offer" onclick="showFeatureInDevelopment('Axis Offer', 'This offer will be applied at checkout. Continue shopping to add books to your cart!'); return false;">Claim Offer</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Special Deals Section -->
+        <section class="special-deals">
+            <h2>Special Deals</h2>
+            
+            <div class="deals-grid">
+                <!-- Deal 1 -->
+                <div class="deal-card">
+                    <div class="discount-badge">40%</div>
+                    <div class="deal-image">
+                        <span>📚</span>
+                    </div>
+                    <div class="deal-content">
+                        <h3>Fiction Bestsellers Bundle</h3>
+                        <p>Get 3 bestselling fiction titles at a special bundled price.</p>
+                    </div>
+                    <div class="deal-footer">
+                        <div class="deal-price">
+                            <span class="original-price">₹1499</span>
+                            <span class="current-price">₹899</span>
+                        </div>
+                        <button class="buy-now" onclick="showCartNotification()">Buy Now</button>
+                    </div>
+                </div>
+                
+                <!-- Deal 2 -->
+                <div class="deal-card">
+                    <div class="discount-badge">30%</div>
+                    <div class="deal-image">
+                        <span>🧠</span>
+                    </div>
+                    <div class="deal-content">
+                        <h3>Self-Help Collection</h3>
+                        <p>Transform your life with our curated self-improvement books.</p>
+                    </div>
+                    <div class="deal-footer">
+                        <div class="deal-price">
+                            <span class="original-price">₹1299</span>
+                            <span class="current-price">₹909</span>
+                        </div>
+                        <button class="buy-now" onclick="showCartNotification()">Buy Now</button>
+                    </div>
+                </div>
+                
+                <!-- Deal 3 -->
+                <div class="deal-card">
+                    <div class="discount-badge">50%</div>
+                    <div class="deal-image">
+                        <span>🔍</span>
+                    </div>
+                    <div class="deal-content">
+                        <h3>Mystery Thriller Pack</h3>
+                        <p>Edge-of-your-seat thrillers from award-winning authors.</p>
+                    </div>
+                    <div class="deal-footer">
+                        <div class="deal-price">
+                            <span class="original-price">₹1599</span>
+                            <span class="current-price">₹799</span>
+                        </div>
+                        <button class="buy-now" onclick="showCartNotification()">Buy Now</button>
+                    </div>
+                </div>
+                
+                <!-- Deal 4 -->
+                <div class="deal-card">
+                    <div class="discount-badge">25%</div>
+                    <div class="deal-image">
+                        <span>🧪</span>
+                    </div>
+                    <div class="deal-content">
+                        <h3>Science & Technology</h3>
+                        <p>Latest publications on innovation and scientific discoveries.</p>
+                    </div>
+                    <div class="deal-footer">
+                        <div class="deal-price">
+                            <span class="original-price">₹1899</span>
+                            <span class="current-price">₹1424</span>
+                        </div>
+                        <button class="buy-now" onclick="showCartNotification()">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Feature Under Development Notification -->
+    <div id="featureNotification" class="feature-notification">
+        <h3 id="featureTitle">Feature Coming Soon</h3>
+        <p id="featureMessage">This feature is currently under development. Please check back later!</p>
+        <button onclick="closeFeatureNotification()">Close</button>
+    </div>
+
+    <!-- Shopping Cart Notification -->
+    <div id="cartNotification" class="feature-notification">
+        <h3>Shopping Cart</h3>
+        <p>Your shopping cart is being prepared. Soon you'll be able to add your favorite books and complete purchases!</p>
+        <button onclick="closeCartNotification()">Close</button>
+    </div>
+
+    <script>
+        // Show/hide feature notification
+        function showFeatureInDevelopment(title, message) {
+            document.getElementById('featureTitle').textContent = title;
+            document.getElementById('featureMessage').textContent = message;
+            document.getElementById('featureNotification').style.display = 'block';
+            return false;
+        }
+
+        function closeFeatureNotification() {
+            document.getElementById('featureNotification').style.display = 'none';
+        }
+
+        // Cart notification
+        function showCartNotification() {
+            document.getElementById('cartNotification').style.display = 'block';
+        }
+
+        function closeCartNotification() {
+            document.getElementById('cartNotification').style.display = 'none';
+        }
+
+        // Dark mode toggle
+        function toggleDarkMode() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                themeIcon.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-mode');
+                themeIcon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Check saved theme preference
+        function checkTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeIcon.textContent = '☀️';
+            }
+        }
+
+        // Countdown timer
+        function updateCountdown() {
+            // Set the end date (3 days from now)
+            const now = new Date();
+            const endDate = new Date();
+            endDate.setDate(now.getDate() + 3);
+            endDate.setHours(23, 59, 59, 0);
+            
+            const timeLeft = endDate - now;
+            
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        // Navigate to specific page
+        function showPage(pageId) {
+            window.location.href = "index.html#" + pageId;
+        }
+
+        // Show search (placeholder for now)
+        function showSearch() {
+            showFeatureInDevelopment('Search', 'The search feature is under development. You will be able to search for books soon!');
+        }
+
+        // Initialize
+        window.onload = function() {
+            checkTheme();
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeFeatureNotification();
+                    closeCartNotification();
+                }
+            });
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E Bookstore</title>
+    <style>
+        /* Add this CSS to hide the main content initially */
+        .hidden {
+            display: none;
+        }
+
+        /* Rest of your existing CSS styles */
+        :root {
+            --primary-color: #4169E1;
+            --text-color: #0a1635;
+            --bg-color: #f0f4ff;
+            --card-bg: #ffffff;
+            --secondary-text: #555;
+            --discount-color: #888;
+            --star-color: #FFD700;
+        }
+
+        .dark-mode {
+            --primary-color: #5d7de9;
+            --text-color: #e4e9f7;
+            --bg-color: #121a2e;
+            --card-bg: #1a2440;
+            --secondary-text: #bbc;
+            --discount-color: #aaa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: var(--bg-color);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-icons button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: 1rem;
+            color: var(--text-color);
+            font-size: 1.2rem;
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3rem 5%;
+            gap: 2rem;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .hero-content p {
+            color: var(--secondary-text);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .explore-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .explore-btn:hover {
+            background-color: #3050c0;
+        }
+
+        .book-display {
+            flex: 1;
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 1rem;
+            scrollbar-width: none;
+        }
+
+        .book-display::-webkit-scrollbar {
+            display: none;
+        }
+
+        .book {
+            min-width: 180px;
+            max-width: 200px;
+            height: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .book:hover {
+            transform: translateY(-10px);
+        }
+
+        .book img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-around;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 300px;
+        }
+
+        .feature i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature h3 {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .feature p {
+            color: var(--secondary-text);
+        }
+
+        /* New Books Page Styles */
+        .page-section {
+            display: none;
+            padding: 2rem 5%;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+            font-size: 2.5rem;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .book-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .book-card-img {
+            width: 100%;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 250px;
+        }
+
+        .book-card-img img {
+            max-width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .book-card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .book-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .book-author {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-text);
+        }
+
+        .book-price {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .current-price {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-right: 0.8rem;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: var(--discount-color);
+            font-size: 0.9rem;
+        }
+
+        .book-rating {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .star {
+            color: var(--star-color);
+            margin-right: 0.2rem;
+        }
+
+        .add-to-cart {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: auto;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background-color: #3050c0;
+        }
+
+        /* Search bar styles */
+        .search-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            z-index: 1000;
+            padding-top: 100px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .search-container.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .search-box {
+            width: 80%;
+            max-width: 600px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-header h3 {
+            color: var(--text-color);
+            font-size: 1.5rem;
+        }
+
+        .close-search {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .search-form {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            flex-grow: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+            outline: none;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .search-button {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        .search-content {
+            color: var(--text-color);
+            text-align: center;
+            padding: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Feature under development notification */
+        .feature-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 400px;
+            text-align: center;
+            display: none;
+        }
+
+        .feature-notification h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .feature-notification p {
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .feature-notification button {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .features {
+                flex-direction: column;
+                align-items: center;
+                gap: 2rem;
+            }
+
+            .book-card {
+                flex-direction: column;
+            }
+
+            .book-card-img, .book-card-content {
+                width: 100%;
+            }
+        }
+
+        /* Login Modal Styles */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .login-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .login-container {
+            width: 90%;
+            max-width: 400px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-header h3 {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .close-login {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .login-error {
+            color: #e74c3c;
+            background-color: rgba(231, 76, 60, 0.1);
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 0.5rem;
+        }
+
+        .remember-me label {
+            color: var(--text-color);
+        }
+
+        .forgot-password {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .login-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: #3050c0;
+        }
+
+        .register-link, .back-to-login {
+            text-align: center;
+            color: var(--text-color);
+        }
+
+        .register-link a, .back-to-login a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .forgot-message {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .forgot-message.success {
+            color: #2ecc71;
+            background-color: rgba(46, 204, 113, 0.1);
+            display: block;
+        }
+
+        .reset-info {
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Animation for modals */
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-container {
+            animation: modalFadeIn 0.3s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="📚"></i> Novelnest Bookstore
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="#" id="home-link" class="active" onclick="showPage('home'); return false;">Home</a></li>
+                <li><a href="#" onclick="showFeatureInDevelopment('Featured Books', 'Our featured books section is coming soon! We are carefully selecting the best titles for you.'); return false;">Featured</a></li>
+                <li><a href="Discount.html">Discount</a></li>
+                <li><a href="#" id="new-books-link" onclick="showPage('new-books'); return false;">New Books</a></li>
+                <li><a href="#" onclick="showFeatureInDevelopment('Customer Testimonials', 'We are collecting customer reviews and testimonials. This section will be available soon!'); return false;">Testimonial</a></li>
+            </ul>
+        </nav>
+        <div class="nav-icons">
+            <button onclick="showSearch()">🔍</button>
+            <button onclick="showLogin()">👤</button>
+            <button onclick="toggleDarkMode()">
+                <span id="theme-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content (Hidden Initially) -->
+    <main id="mainContent" class="hidden">
+        <section id="home" class="page-section active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Browse & Select E-Books</h1>
+                    <p>Find the best e-books from your favorite writers, explore hundreds of books with all possible categories, take advantage of the 50% discount and much more.</p>
+                    <button class="explore-btn" onclick="showPage('new-books'); return false;">Explore Now</button>
+                </div>
+                <div class="book-display" id="bookDisplay">
+                    <!-- Books will be dynamically added here -->
+                </div>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <i>🚚</i>
+                    <h3>Free Shipping</h3>
+                    <p>Order More Than Rs 99 </p>
+                </div>
+                <div class="feature">
+                    <i>🔒</i>
+                    <h3>Secure Payment</h3>
+                    <p>100% Secure Payment</p>
+                </div>
+                <div class="feature">
+                    <i>🎧</i>
+                    <h3>24/7 Support</h3>
+                    <p>Call us anytime</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="new-books" class="page-section">
+            <h2 class="page-title">New Books</h2>
+            <div class="books-grid" id="newBooksGrid">
+                <!-- New books added dynamically here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Search Container -->
+    <div id="searchContainer" class="search-container">
+        <div class="search-box">
+            <div class="search-header">
+                <h3>Search Books</h3>
+                <button class="close-search" onclick="closeSearch()">✕</button>
+            </div>
+            <form class="search-form" onsubmit="performSearch(event)">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search for books...">
+                <button type="submit" class="search-button">Search</button>
+            </form>
+            <div class="search-content">
+                <p>Our bookstore is currently building its inventory.</p>
+                <p>Please check back soon for a more collection.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Under Development -->
+    <div id="featureNotification" class="feature-notification">
+        <h3 id="featureTitle">Feature Coming Soon</h3>
+        <p id="featureMessage">This feature is currently under development. Please check back later!</p>
+        <button onclick="closeFeatureNotification()">Close</button>
+    </div>
+
+    <!-- Shopping Cart -->
+    <div id="cartNotification" class="feature-notification">
+        <h3>Shopping Cart</h3>
+        <p>Your shopping cart is being prepared. Soon you'll be able to add your favorite books and complete purchases!</p>
+        <button onclick="closeCartNotification()">Close</button>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="login-modal">
+        <div class="login-container">
+            <div class="login-header">
+                <h3>Login to Novelnest</h3>
+                <button class="close-login" onclick="closeLogin()">✕</button>
+            </div>
+            <div class="login-error" id="loginError"></div>
+            <form class="login-form" onsubmit="validateLogin(event)">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password">
+                </div>
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-password" onclick="showForgotPassword(); return false;">Forgot password?</a>
+                </div>
+                <button type="submit" class="login-button">Login</button>
+                <div class="register-link">
+                    Don't have an account? <a href="#" onclick="showRegister(); return false;">Register</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="login-modal">
+        <div class="login-container">
+            <div class="login-header">
+                <h3>Reset Password</h3>
+                <button class="close-login" onclick="closeForgotPassword()">✕</button>
+            </div>
+            <div class="forgot-message" id="forgotMessage"></div>
+            <form class="login-form" onsubmit="resetPassword(event)">
+                <div class="form-group">
+                    <label for="resetEmail">Email Address</label>
+                    <input type="email" id="resetEmail" name="resetEmail" required placeholder="Enter your email address">
+                </div>
+                <p class="reset-info">We'll send you a link to reset your password.</p>
+                <button type="submit" class="login-button">Reset Password</button>
+                <div class="back-to-login">
+                    <a href="#" onclick="backToLogin(); return false;">Back to login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="registerModal" class="login-modal">
+        <div class="login-container">
+            <div class="login-header">
+                <h3>Register for Novelnest</h3>
+                <button class="close-login" onclick="closeRegister()">✕</button>
+            </div>
+            <div class="register-error" id="registerError"></div>
+            <form class="login-form" onsubmit="validateRegister(event)">
+                <div class="form-group">
+                    <label for="newUsername">Username</label>
+                    <input type="text" id="newUsername" name="newUsername" required placeholder="Enter a username">
+                </div>
+                <div class="form-group">
+                    <label for="newEmail">Email</label>
+                    <input type="email" id="newEmail" name="newEmail" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Password</label>
+                    <input type="password" id="newPassword" name="newPassword" required placeholder="Enter a password">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
+                </div>
+                <button type="submit" class="login-button">Register</button>
+                <div class="login-link">
+                    Already have an account? <a href="#" onclick="showLogin(); return false;">Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // User data for demo
+        const users = [
+            { username: 'user1', password: 'password1', email: 'user1@example.com' },
+            { username: 'user2', password: 'password2', email: 'user2@example.com' }
+        ];
+
+        // Function to show login modal
+        function showLogin() {
+            document.getElementById('loginModal').classList.add('active');
+            document.getElementById('username').focus();
+        }
+
+        // Function to close login modal
+        function closeLogin() {
+            document.getElementById('loginModal').classList.remove('active');
+            document.getElementById('loginError').style.display = 'none';
+            document.getElementById('loginError').textContent = '';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        // Function to validate login
+        function validateLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const loginError = document.getElementById('loginError');
+            
+            // Find user in our demo data
+            const user = users.find(u => u.username === username);
+            
+            if (!user) {
+                loginError.textContent = 'Username not found. Please try again.';
+                loginError.style.display = 'block';
+                return;
+            }
+            
+            if (user.password !== password) {
+                loginError.textContent = 'Incorrect password. Please try again.';
+                loginError.style.display = 'block';
+                return;
+            }
+            
+            // Successful login
+            loginError.style.display = 'none';
+            closeLogin();
+            
+            // Show the main content
+            document.getElementById('mainContent').classList.remove('hidden');
+            
+            // Update UI to show logged-in state
+            const userIcon = document.querySelector('.nav-icons button:nth-child(2)');
+            userIcon.textContent = '✓';
+            
+            // Save login state in localStorage
+            localStorage.setItem('isLoggedIn', 'true');
+            
+            // Redirect to the home page
+            showPage('home');
+            
+            // Show welcome message
+            showFeatureInDevelopment('Welcome', `You've successfully logged in as ${username}!`);
+        }
+
+        // Function to show registration modal
+        function showRegister() {
+            closeLogin(); // Close login modal if open
+            document.getElementById('registerModal').classList.add('active');
+            document.getElementById('newUsername').focus();
+        }
+
+        // Function to close registration modal
+        function closeRegister() {
+            document.getElementById('registerModal').classList.remove('active');
+            document.getElementById('registerError').style.display = 'none';
+            document.getElementById('registerError').textContent = '';
+            document.getElementById('newUsername').value = '';
+            document.getElementById('newEmail').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+
+        // Function to validate registration
+        function validateRegister(event) {
+            event.preventDefault();
+            const newUsername = document.getElementById('newUsername').value;
+            const newEmail = document.getElementById('newEmail').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const registerError = document.getElementById('registerError');
+
+            // Check if passwords match
+            if (newPassword !== confirmPassword) {
+                registerError.textContent = 'Passwords do not match. Please try again.';
+                registerError.style.display = 'block';
+                return;
+            }
+
+            // Check if username or email already exists
+            const userExists = users.some(u => u.username === newUsername || u.email === newEmail);
+            if (userExists) {
+                registerError.textContent = 'Username or email already exists. Please choose a different one.';
+                registerError.style.display = 'block';
+                return;
+            }
+
+            // Add new user to the users array
+            users.push({ username: newUsername, password: newPassword, email: newEmail });
+            registerError.style.display = 'none';
+
+            // Close registration modal
+            closeRegister();
+
+            // Automatically log in the user
+            document.getElementById('username').value = newUsername;
+            document.getElementById('password').value = newPassword;
+            validateLogin(event); // Simulate login
+
+            // Show success message
+            showFeatureInDevelopment('Registration Successful', `Welcome, ${newUsername}! You have been registered and logged in.`);
+        }
+
+        // Function to show forgot password modal
+        function showForgotPassword() {
+            closeLogin();
+            document.getElementById('forgotPasswordModal').classList.add('active');
+            document.getElementById('resetEmail').focus();
+        }
+
+        // Function to close forgot password modal
+        function closeForgotPassword() {
+            document.getElementById('forgotPasswordModal').classList.remove('active');
+            document.getElementById('forgotMessage').className = 'forgot-message';
+            document.getElementById('forgotMessage').textContent = '';
+            document.getElementById('resetEmail').value = '';
+        }
+
+        // Function to handle password reset
+        function resetPassword(event) {
+            event.preventDefault();
+            const email = document.getElementById('resetEmail').value;
+            const forgotMessage = document.getElementById('forgotMessage');
+            
+            // Check if email exists in our demo data
+            const user = users.find(u => u.email === email);
+            
+            forgotMessage.textContent = 'If an account exists with this email, you will receive a password reset link shortly.';
+            forgotMessage.className = 'forgot-message success';
+            
+            // Reset form after 3 seconds and return to login
+            setTimeout(() => {
+                closeForgotPassword();
+                showLogin();
+            }, 3000);
+        }
+
+        // Function to go back to login from forgot password
+        function backToLogin() {
+            closeForgotPassword();
+            showLogin();
+        }
+
+        // Function to logout
+        function logout() {
+            // Reset login state
+            localStorage.setItem('isLoggedIn', 'false');
+            
+            // Hide the main content
+            document.getElementById('mainContent').classList.add('hidden');
+            
+            // Reset the user icon
+            const userIcon = document.querySelector('.nav-icons button:nth-child(2)');
+            userIcon.textContent = '👤';
+            
+            // Show the login modal
+            showLogin();
+        }
+
+        // Initialize
+        window.onload = function() {
+            // Check if the user is logged in
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            
+            if (isLoggedIn === 'true') {
+                // User is logged in, show the main content
+                document.getElementById('mainContent').classList.remove('hidden');
+            } else {
+                // User is not logged in, show the login modal
+                showLogin();
+            }
+            
+            // Initialize other functions
+            generateBooks();
+            loadNewBooks();
+            checkTheme();
+            
+            const bookDisplay = document.getElementById('bookDisplay');
+            setInterval(() => {
+                if (bookDisplay.scrollLeft < bookDisplay.scrollWidth - bookDisplay.clientWidth) {
+                    bookDisplay.scrollLeft += 200;
+                } else {
+                    bookDisplay.scrollLeft = 0;
+                }
+            }, 3000);
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeSearch();
+                    closeFeatureNotification();
+                    closeCartNotification();
+                    closeLogin();
+                    closeForgotPassword();
+                }
+            });
+        };
+    </script>
+</body>
+</html>
