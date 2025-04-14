@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Non-Fiction Books - Novelnest Bookstore</title>
+    <style>
+        :root {
+            --primary-color: #4169E1;
+            --text-color: #0a1635;
+            --bg-color: #f0f4ff;
+            --card-bg: #ffffff;
+            --secondary-text: #555;
+            --discount-color: #888;
+            --star-color: #FFD700;
+            --accent-color: #5d3fd3;
+        }
+
+        .dark-mode {
+            --primary-color: #5d7de9;
+            --text-color: #e4e9f7;
+            --bg-color: #121a2e;
+            --card-bg: #1a2440;
+            --secondary-text: #bbc;
+            --discount-color: #aaa;
+            --accent-color: #7b5df7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: var(--bg-color);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-icons button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: 1rem;
+            color: var(--text-color);
+            font-size: 1.2rem;
+        }
+
+        .back-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #3050c0;
+        }
+
+        .featured-header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/api/placeholder/1200/400');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 5%;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .featured-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .featured-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 3rem 0 2rem;
+            color: var(--text-color);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .featured-container {
+            padding: 0 5% 3rem;
+        }
+
+        .non-fiction-books {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .book-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .book-card-img {
+            width: 100%;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 250px;
+        }
+
+        .book-card-img img {
+            max-width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .book-card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .book-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .book-author {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-text);
+        }
+
+        .book-price {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .current-price {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-right: 1rem;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: var(--discount-color);
+            font-size: 1.1rem;
+        }
+
+        .book-rating {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .star {
+            color: var(--star-color);
+            margin-right: 0.2rem;
+        }
+
+        .rating-count {
+            color: var(--secondary-text);
+            margin-left: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .book-cta {
+            display: flex;
+            gap: 1rem;
+            margin-top: auto;
+        }
+
+        .add-to-cart {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            flex: 1;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background-color: #3050c0;
+        }
+
+        .add-to-wishlist {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 1px solid #ddd;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-wishlist:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 400px;
+            text-align: center;
+            display: none;
+        }
+
+        .feature-notification h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .feature-notification p {
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .feature-notification button {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        #cartNotification {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .featured-header h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="📚"></i> Novelnest Bookstore
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html" class="active">Featured</a></li>
+                <li><a href="Discount.html">Discount</a></li>
+                <li><a href="index.html#new-books">New Books</a></li>
+                <li><a href="Testimonial.html">Testimonial</a></li>
+            </ul>
+        </nav>
+        <div class="nav-icons">
+            <button class="back-button" onclick="history.back()">← Back</button>
+            <button onclick="showSearch()">🔍</button>
+            <button onclick="showLogin()">👤</button>
+            <button onclick="toggleDarkMode()">
+                <span id="theme-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div class="featured-header">
+            <h1>Non-Fiction Books</h1>
+            <p>Discover insightful non-fiction titles that explore real stories, ideas, and knowledge from around the world.</p>
+        </div>
+
+        <div class="featured-container">
+            <div class="non-fiction-books">
+                <div class="book-card">
+                    <div class="book-card-img">
+                        <img src="non_fiction_book1.jpg" alt="Sapiens Cover">
+                    </div>
+                    <div class="book-card-content">
+                        <h3 class="book-title">Sapiens</h3>
+                        <p class="book-author">by Yuval Noah Harari</p>
+                        <div class="book-price">
+                            <span class="current-price">₹499</span>
+                            <span class="original-price">₹799</span>
+                        </div>
+                        <div class="book-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star" style="opacity: 0.3;">★</span>
+                        </div>
+                        <button class="add-to-cart" onclick="showCartNotification()">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <div class="book-card-img">
+                        <img src="non_fiction_book2.jpg" alt="The Power of Habit Cover">
+                    </div>
+                    <div class="book-card-content">
+                        <h3 class="book-title">The Power of Habit</h3>
+                        <p class="book-author">by Charles Duhigg</p>
+                        <div class="book-price">
+                            <span class="current-price">₹399</span>
+                            <span class="original-price">₹599</span>
+                        </div>
+                        <div class="book-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <button class="add-to-cart" onclick="showCartNotification()">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <div class="book-card-img">
+                        <img src="non_fiction_book3.jpg" alt="Educated Cover">
+                    </div>
+                    <div class="book-card-content">
+                        <h3 class="book-title">Educated</h3>
+                        <p class="book-author">by Tara Westover</p>
+                        <div class="book-price">
+                            <span class="current-price">₹349</span>
+                            <span class="original-price">₹549</span>
+                        </div>
+                        <div class="book-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star" style="opacity: 0.3;">★</span>
+                        </div>
+                        <button class="add-to-cart" onclick="showCartNotification()">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <div class="book-card-img">
+                        <img src="non_fiction_book4.jpg" alt="Atomic Habits Cover">
+                    </div>
+                    <div class="book-card-content">
+                        <h3 class="book-title">Atomic Habits</h3>
+                        <p class="book-author">by James Clear</p>
+                        <div class="book-price">
+                            <span class="current-price">₹429</span>
+                            <span class="original-price">₹699</span>
+                        </div>
+                        <div class="book-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <button class="add-to-cart" onclick="showCartNotification()">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <div class="book-card-img">
+                        <img src="non_fiction_book5.jpg" alt="Becoming Cover">
+                    </div>
+                    <div class="book-card-content">
+                        <h3 class="book-title">Becoming</h3>
+                        <p class="book-author">by Michelle Obama</p>
+                        <div class="book-price">
+                            <span class="current-price">₹479</span>
+                            <span class="original-price">₹749</span>
+                        </div>
+                        <div class="book-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star" style="opacity: 0.3;">★</span>
+                        </div>
+                        <button class="add-to-cart" onclick="showCartNotification()">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <div class="book-card-img">
+                        <img src="non_fiction_book6.jpg" alt="The Immortal Life of Henrietta Lacks Cover">
+                    </div>
+                    <div class="book-card-content">
+                        <h3 class="book-title">The Immortal Life of Henrietta Lacks</h3>
+                        <p class="book-author">by Rebecca Skloot</p>
+                        <div class="book-price">
+                            <span class="current-price">₹399</span>
+                            <span class="original-price">₹599</span>
+                        </div>
+                        <div class="book-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star" style="opacity: 0.3;">★</span>
+                        </div>
+                        <button class="add-to-cart" onclick="showCartNotification()">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Feature Under Development -->
+    <div id="featureNotification" class="feature-notification">
+        <h3 id="featureTitle">Feature Coming Soon</h3>
+        <p id="featureMessage">This feature is currently under development. Please check back later!</p>
+        <button onclick="closeFeatureNotification()">Close</button>
+    </div>
+
+    <!-- Shopping Cart -->
+    <div id="cartNotification" class="feature-notification">
+        <h3>Shopping Cart</h3>
+        <p>Your shopping cart is being prepared. Soon you'll be able to add your favorite books and complete purchases!</p>
+        <button onclick="closeCartNotification()">Close</button>
+    </div>
+
+    <script>
+        // Function to show feature in development notification
+        function showFeatureInDevelopment(title, message) {
+            document.getElementById('featureTitle').textContent = title;
+            document.getElementById('featureMessage').textContent = message;
+            document.getElementById('featureNotification').style.display = 'block';
+            return false;
+        }
+
+        // Function to close feature notification
+        function closeFeatureNotification() {
+            document.getElementById('featureNotification').style.display = 'none';
+        }
+
+        // Function to show cart notification
+        function showCartNotification() {
+            document.getElementById('cartNotification').style.display = 'block';
+        }
+
+        // Function to close cart notification
+        function closeCartNotification() {
+            document.getElementById('cartNotification').style.display = 'none';
+        }
+
+        // Function to toggle dark mode
+        function toggleDarkMode() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                themeIcon.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-mode');
+                themeIcon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Function to check theme
+        function checkTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeIcon.textContent = '☀️';
+            }
+        }
+
+        // Function to redirect to search
+        function showSearch() {
+            window.location.href = "index.html";
+            localStorage.setItem('showSearch', 'true');
+        }
+
+        // Function to show login
+        function showLogin() {
+            window.location.href = "index.html";
+            localStorage.setItem('showLogin', 'true');
+        }
+
+        // Initialize
+        window.onload = function() {
+            checkTheme();
+        };
+    </script>
+</body>
+</html>
