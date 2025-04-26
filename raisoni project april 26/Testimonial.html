@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testimonials - Novelnest Bookstore</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4169E1;
+            --text-color: #0a1635;
+            --bg-color: #f0f4ff;
+            --card-bg: #ffffff;
+            --secondary-text: #555;
+            --discount-color: #888;
+            --star-color: #FFD700;
+            --accent-color: #5d3fd3;
+        }
+
+        .dark-mode {
+            --primary-color: #5d7de9;
+            --text-color: #e4e9f7;
+            --bg-color: #121a2e;
+            --card-bg: #1a2440;
+            --secondary-text: #bbc;
+            --discount-color: #aaa;
+            --accent-color: #7b5df7;
+        }
+
+        .forest-mode {
+            --primary-color: #2e7d32;
+            --text-color: #1a3c34;
+            --bg-color: #e8f5e9;
+            --card-bg: #ffffff;
+            --secondary-text: #4a5c56;
+            --discount-color: #6b7280;
+            --accent-color: #4caf50;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
+        }
+
+        .star {
+            color: var(--star-color);
+        }
+
+        .newsletter-section {
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+        }
+
+        .faq-item {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="forest-mode min-h-screen flex flex-col">
+    <header class="bg-white shadow-md sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl font-bold text-[var(--primary-color)]">📚 Novelnest</span>
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="index.html" class="text-[var(--text-color)] hover:text-[var(--primary-color)]">Home</a>
+                <a href="index.html" class="text-[var(--primary-color)]">Featured</a>
+                <a href="Discount.html" class="text-[var(--text-color)] hover:text-[var(--primary-color)]">Discount</a>
+                <a href="index.html#new-books" class="text-[var(--text-color)] hover:text-[var(--primary-color)]">New Books</a>
+                <a href="#" class="text-[var(--primary-color)]">Testimonial</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <button onclick="window.location.href='index.html'" class="text-[var(--text-color)] hover:text-[var(--primary-color)]">🔍</button>
+                <button onclick="window.location.href='index.html'" class="text-[var(--text-color)] hover:text-[var(--primary-color)]">👤</button>
+                <button onclick="window.location.href='index.html'" class="relative text-[var(--text-color)] hover:text-[var(--primary-color)]">
+                    🛒 <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                </button>
+                <button id="themeToggle" class="text-[var(--text-color)] hover:text-[var(--primary-color)]">🌳</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section class="bg-cover bg-center py-16 text-white text-center" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/api/placeholder/1200/400');">
+            <div class="container mx-auto px-4">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Customer Testimonials</h1>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto">Hear what our valued customers have to say about their experience with Novelnest Bookstore.</p>
+            </div>
+        </section>
+
+        <section class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="testimonial-card bg-[var(--card-bg)] rounded-lg shadow-lg overflow-hidden">
+                    <img src="testimonial1.jpg" alt="Customer 1" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[var(--text-color)]">Priya Sharma</h3>
+                        <p class="text-[var(--secondary-text)] mt-2">I love the variety of books available! The delivery was super fast, and the prices are unbeatable. Highly recommend!</p>
+                        <div class="flex mt-4">
+                            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card bg-[var(--card-bg)] rounded-lg shadow-lg overflow-hidden">
+                    <img src="testimonial2.jpg" alt="Customer 2" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[var(--text-color)]">Amit Patel</h3>
+                        <p class="text-[var(--secondary-text)] mt-2">Great selection of fiction and non-fiction. The website is easy to navigate, and customer support was very helpful.</p>
+                        <div class="flex mt-4">
+                            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star text-gray-300">★</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card bg-[var(--card-bg)] rounded-lg shadow-lg overflow-hidden">
+                    <img src="testimonial3.jpg" alt="Customer 3" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[var(--text-color)]">Sneha Gupta</h3>
+                        <p class="text-[var(--secondary-text)] mt-2">The best online bookstore I’ve used! The discounts are amazing, and the books arrived in perfect condition.</p>
+                        <div class="flex mt-4">
+                            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card bg-[var(--card-bg)] rounded-lg shadow-lg overflow-hidden">
+                    <img src="testimonial4.jpg" alt="Customer 4" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[var(--text-color)]">Rahul Mehta</h3>
+                        <p class="text-[var(--secondary-text)] mt-2">Excellent service and a wide range of genres. My go-to place for all my reading needs!</p>
+                        <div class="flex mt-4">
+                            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star text-gray-300">★</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="newsletter-section py-16 text-white">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Join Our Book Lovers Community</h2>
+                <p class="text-lg mb-6">Subscribe to our newsletter for exclusive discounts, new releases, and book recommendations!</p>
+                <div class="max-w-md mx-auto flex">
+                    <input type="email" placeholder="Enter your email" class="w-full p-3 rounded-l-md text-[var(--text-color)]">
+                    <button onclick="window.location.href='index.html'" class="bg-white text-[var(--primary-color)] px-6 py-3 rounded-r-md hover:bg-gray-100">Subscribe</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="container mx-auto px-4 py-12">
+            <h2 class="text-3xl font-bold text-[var(--text-color)] mb-8 text-center">Frequently Asked Questions</h2>
+            <div class="space-y-4 max-w-3xl mx-auto">
+                <div class="faq-item bg-[var(--card-bg)] p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-[var(--text-color)]">How long does shipping take?</h3>
+                    <p class="text-[var(--secondary-text)] mt-2">Standard shipping typically takes 3-7 business days, depending on your location. Express shipping options are available at checkout.</p>
+                </div>
+                <div class="faq-item bg-[var(--card-bg)] p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-[var(--text-color)]">What is your return policy?</h3>
+                    <p class="text-[var(--secondary-text)] mt-2">We offer a 30-day return policy for books in their original condition. Contact our support team to initiate a return.</p>
+                </div>
+                <div class="faq-item bg-[var(--card-bg)] p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-[var(--text-color)]">Do you offer international shipping?</h3>
+                    <p class="text-[var(--secondary-text)] mt-2">Yes, we ship to most countries worldwide. Shipping costs and delivery times vary by destination.</p>
+                </div>
+                <div class="faq-item bg-[var(--card-bg)] p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-[var(--text-color)]">How can I track my order?</h3>
+                    <p class="text-[var(--secondary-text)] mt-2">Once your order ships, you'll receive a tracking number via email. You can track your package directly on our website.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[var(--card-bg)] py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold text-[var(--text-color)] mb-4">Novelnest Bookstore</h3>
+                    <p class="text-[var(--secondary-text)]">Your one-stop shop for books of all genres. Discover new stories and rediscover classics with us.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-[var(--text-color)] mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-[var(--secondary-text)] hover:text-[var(--primary-color)]">Home</a></li>
+                        <li><a href="Discount.html" class="text-[var(--secondary-text)] hover:text-[var(--primary-color)]">Discounts</a></li>
+                        <li><a href="index.html#new-books" class="text-[var(--secondary-text)] hover:text-[var(--primary-color)]">New Books</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-[var(--text-color)] mb-4">Contact Us</h3>
+                    <p class="text-[var(--secondary-text)]">Email: support@novelnest.com</p>
+                    <p class="text-[var(--secondary-text)]">Phone: +91 1122334455</p>
+                    <p class="text-[var(--secondary-text)]">Address: G.H.Raisoni College of Engineering, Nagpur</p>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-[var(--secondary-text)]">
+                <p>&copy; 2025 Novelnest Bookstore. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function updateCartCount() {
+            document.getElementById('cartCount').textContent = cart.length;
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+            const themes = ['forest-mode', 'dark-mode', 'light-mode'];
+            const icons = ['🌳', '☀️', '🌙'];
+            let currentTheme = themes.find(theme => body.classList.contains(theme)) || 'forest-mode';
+            let nextThemeIndex = (themes.indexOf(currentTheme) + 1) % themes.length;
+
+            body.classList.remove(...themes);
+            body.classList.add(themes[nextThemeIndex]);
+            themeToggle.textContent = icons[nextThemeIndex];
+            localStorage.setItem('theme', themes[nextThemeIndex]);
+        }
+
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'forest-mode';
+            const themeToggle = document.getElementById('themeToggle');
+            const themes = ['forest-mode', 'dark-mode', 'light-mode'];
+            const icons = ['🌳', '☀️', '🌙'];
+            const themeIndex = themes.indexOf(savedTheme);
+
+            document.body.classList.add(savedTheme);
+            themeToggle.textContent = icons[themeIndex] || '🌳';
+        }
+
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        applySavedTheme();
+        updateCartCount();
+    </script>
+</body>
+</html>

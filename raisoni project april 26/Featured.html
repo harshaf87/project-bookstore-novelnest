@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Featured Books - Novelnest Bookstore</title>
+    <style>
+        :root {
+            --primary-color: #4169E1;
+            --text-color: #0a1635;
+            --bg-color: #f0f4ff;
+            --card-bg: #ffffff;
+            --secondary-text: #555;
+            --discount-color: #888;
+            --star-color: #FFD700;
+            --accent-color: #5d3fd3;
+        }
+
+        .dark-mode {
+            --primary-color: #5d7de9;
+            --text-color: #e4e9f7;
+            --bg-color: #121a2e;
+            --card-bg: #1a2440;
+            --secondary-text: #bbc;
+            --discount-color: #aaa;
+            --accent-color: #7b5df7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: var(--bg-color);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-icons button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: 1rem;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.8rem;
+        }
+
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: none;
+            justify-content: flex-end;
+        }
+
+        .cart-panel {
+            background-color: var(--card-bg);
+            width: 400px;
+            max-width: 90%;
+            height: 100%;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .cart-panel h2 {
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item img {
+            width: 60px;
+            height: 80px;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-price {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .cart-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cart-quantity button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .cart-footer {
+            margin-top: 2rem;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .featured-header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/api/placeholder/1200/400');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 5%;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .featured-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .featured-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 3rem 0 2rem;
+            color: var(--text-color);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .featured-container {
+            padding: 0 5% 3rem;
+        }
+
+        .highlighted-book {
+            display: flex;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+            max-width: 800px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .highlighted-book-img {
+            flex: 1;
+            min-height: 250px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .highlighted-book-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .highlighted-book-content {
+            flex: 1.5;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .highlighted-book-badge {
+            background-color: var(--accent-color);
+            color: white;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlighted-book-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .highlighted-book-author {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-text);
+        }
+
+        .highlighted-book-description {
+            color: var(--secondary-text);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .highlighted-book-price {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .current-price {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-right: 1rem;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: var(--discount-color);
+            font-size: 1.1rem;
+        }
+
+        .save-badge {
+            background-color: #e74c3c;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-left: 1rem;
+        }
+
+        .book-rating {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .star {
+            color: var(--star-color);
+            margin-right: 0.2rem;
+        }
+
+        .rating-count {
+            color: var(--secondary-text);
+            margin-left: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .book-cta {
+            display: flex;
+            gap: 1rem;
+            margin-top: auto;
+        }
+
+        .add-to-cart {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            flex: 1;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background-color: #3050c0;
+        }
+
+        .add-to-wishlist {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 1px solid #ddd;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-wishlist:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .monthly-picks {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .book-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .book-card-img {
+            width: 100%;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 250px;
+        }
+
+        .book-card-img img {
+            max-width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .book-card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .book-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .book-author {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-text);
+        }
+
+        .book-price {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-card {
+            height: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: scale(1.03);
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .category-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.7));
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+
+        .category-name {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .author-spotlight {
+            display: flex;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+        }
+
+        .author-img {
+            flex: 1;
+            min-height: 350px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .author-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            max-height: 350px;
+        }
+
+        .author-content {
+            flex: 1.5;
+            padding: 2.5rem;
+        }
+
+        .author-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .author-content p {
+            color: var(--secondary-text);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .author-books {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            scrollbar-width: thin;
+        }
+
+        .author-books::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .author-books::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .author-books::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
+
+        .author-book {
+            flex-shrink: 0;
+            width: 100px;
+        }
+
+        .author-book img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+
+        .feature-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 400px;
+            text-align: center;
+            display: none;
+        }
+
+        .feature-notification h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .feature-notification p {
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .feature-notification button {
+            padding: 0 underneath: 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        #cartNotification {
+            display: none;
+        }
+
+        @media (max-width: 992px) {
+            .highlighted-book, .author-spotlight {
+                flex-direction: column;
+            }
+
+            .highlighted-book-img, .author-img {
+                min-height: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .categories {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .featured-header h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="📚"></i> Novelnest Bookstore
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#" class="active">Featured</a></li>
+                <li><a href="Discount.html">Discount</a></li>
+                <li><a href="index.html#new-books">New Books</a></li>
+                <li><a href="Testimonial.html">Testimonial</a></li>
+            </ul>
+        </nav>
+        <div class="nav-icons">
+            <button onclick="showSearch()">🔍</button>
+            <button onclick="showLogin()">👤</button>
+            <button onclick="showCart()">
+                🛒 <span id="cartCount" class="cart-count">0</span>
+            </button>
+            <button onclick="toggleDarkMode()">
+                <span id="theme-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div class="cart-overlay" id="cartOverlay">
+            <div class="cart-panel">
+                <button class="close-cart" onclick="closeCart()">×</button>
+                <h2>Your Cart</h2>
+                <div id="cartItems"></div>
+                <div class="cart-footer">
+                    <div class="cart-total">
+                        <span>Total:</span>
+                        <span id="cartTotal">₹0</span>
+                    </div>
+                    <button class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="featured-header">
+            <h1>Featured Books</h1>
+            <p>Discover the most exceptional books carefully selected by our editorial team. From bestsellers to hidden gems, these are the titles worth your time.</p>
+        </div>
+
+        <div class="featured-container">
+            <h2 class="section-title">Book of the Month</h2>
+            <div class="highlighted-book">
+                <div class="highlighted-book-img">
+                    <img src="Image_9.jpg" alt="The Silent Symphony Cover">
+                </div>
+                <div class="highlighted-book-content">
+                    <span class="highlighted-book-badge">Editor's Choice</span>
+                    <h3 class="highlighted-book-title">The Silent Symphony</h3>
+                    <p class="highlighted-book-author">by Geeta Lal Sahai</p>
+                    <p class="highlighted-book-description">As memories fade and connections break, caregivers bear the heartbreaking task of holding close to loved ones and letting go of who they once were. The Silent Symphony weaves a heartbreaking narrative while remaining hopeful about the human spirit's strength and the lasting power of compassion.</p>
+                    <div class="highlighted-book-price">
+                        <span class="current-price">₹399</span>
+                        <span class="original-price">₹799</span>
+                        <span class="save-badge">Save 50%</span>
+                    </div>
+                    <div class="book-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating-count">(132 reviews)</span>
+                    </div>
+                    <div class="book-cta">
+                        <button class="add-to-cart" onclick="addToCart('The Silent Symphony', 'Geeta Lal Sahai', 399, 'Image_9.jpg')">Add to Cart</button>
+                        <button class="add-to-wishlist">❤ Wishlist</button>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Monthly Picks</h2>
+            <div class="monthly-picks">
+                <div class="book-card">
+                    <div class="book-card-img">
+                        <img src="Image_10.jpg" alt="Book cover">
+                    </div>
+                    <div class="book-card-content">
+                        <h3 class="book-title">Beyond the Horizon</h3>
+                        <p class="book-author">by K.J. CLOUTIER</p>
+                        <div class="book-price">
+                            <span class="current-price">₹349</span>
+                            <span class="original-price">₹599</span>
+                        </div>
+                        <div class="book-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star" style="opacity: 0.3;">★</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Beyond the Horizon', 'K.J. CLOUTIER', 349, 'Image_10.jpg')">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <div class="book-card-img">
+                        <img src="Image_11.jpg" alt="Book cover">
+                    </div>
+                    <div class="book-card-content">
+                        <h3 class="book-title">The Lost Garden</h3>
+                        <p class="book-author">by KATE KERRIGAN</p>
+                        <div class="book-price">
+                            <span class="current-price">₹299</span>
+                            <span class="original-price">₹499</span>
+                        </div>
+                        <div class="book-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('The Lost Garden', 'KATE KERRIGAN', 299, 'Image_11.jpg')">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <div class="book-card-img">
+                        <img src="Image_12.jpg" alt="Book cover">
+                    </div>
+                    <div class="book-card-content">
+                        <h3 class="book-title">Whispers in the Dark</h3>
+                        <p class="book-author">by JONATHAN AYCLIFFE</p>
+                        <div class="book-price">
+                            <span class="current-price">₹449</span>
+                            <span class="original-price">₹699</span>
+                        </div>
+                        <div class="book-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star" style="opacity: 0.3;">★</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Whispers in the Dark', 'JONATHAN AYCLIFFE', 449, 'Image_12.jpg')">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <div class="book-card-img">
+                        <img src="Image_13.jpg" alt="Book cover">
+                    </div>
+                    <div class="book-card-content">
+                        <h3 class="book-title">The Quantum Key</h3>
+                        <p class="book-author">by TONYA ZAVASTA</p>
+                        <div class="book-price">
+                            <span class="current-price">₹399</span>
+                            <span class="original-price">₹650</span>
+                        </div>
+                        <div class="book-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star" style="opacity: 0.3;">★</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('The Quantum Key', 'TONYA ZAVASTA', 399, 'Image_13.jpg')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Featured Categories</h2>
+            <div class="categories">
+                <a href="fiction.html">
+                <div class="category-card">
+                    <img src="fiction.jpg" alt="Fiction">
+                    <div class="category-overlay">
+                        <h3 class="category-name">Fiction</h3>
+                    </div>
+                </div></a>
+                
+                <a href="Nonfiction.html">
+                <div class="category-card">
+                    <img src="non_fiction.jpg" alt="Non-Fiction">
+                    <div class="category-overlay">
+                        <h3 class="category-name">Non-Fiction</h3>
+                    </div>
+                </div></a>
+
+                <a href="mystery.html">
+                <div class="category-card">
+                    <img src="Image_14.jpg" alt="Mystery">
+                    <div class="category-overlay">
+                        <h3 class="category-name">Mystery</h3>
+                    </div>
+                </div></a>
+
+                <a href="scifi.html">
+                <div class="category-card">
+                    <img src="Image_15.jpg" alt="Science Fiction">
+                    <div class="category-overlay">
+                        <h3 class="category-name">Science Fiction</h3>
+                    </div>
+                </div></a>
+            </div>
+
+            <h2 class="section-title">Author Spotlight</h2>
+            <div class="author-spotlight">
+                <div class="author-img">
+                    <img src="rknarayan.jpg" alt="R.K. Narayan">
+                </div>
+                <div class="author-content">
+                    <h3>R.K. Narayan</h3>
+                    <p>Award-winning author R.K. Narayan has captivated readers worldwide with his immersive storytelling and vividly crafted characters. Known for blending Indian cultural narratives with universal themes, his works explore identity, community, and the human experience across the fictional town of Malgudi.</p>
+                    <p>His classic novel, *The Guide*, has been celebrated as a masterpiece of Indian literature and was adapted into a critically acclaimed film, earning international recognition for its poignant prose and deep emotional resonance.</p>
+                    <h4 style="margin-bottom: 1rem; color: var(--text-color);">Popular Books:</h4>
+                    <div class="author-books">
+                        <div class="author-book">
+                            <img src="TheGuide.jpg" alt="Book cover">
+                        </div>
+                        <div class="author-book">
+                            <img src="swami.jpg" alt="Book cover">
+                        </div>
+                        <div class="author-book">
+                            <img src="timeless.jpg" alt="Book cover">
+                        </div>
+                        <div class="author-book">
+                            <img src="malgudi.jpg" alt="Book cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="featureNotification" class="feature-notification">
+        <h3 id="featureTitle">Feature Coming Soon</h3>
+        <p id="featureMessage">This feature is currently under development. Please check back later!</p>
+        <button onclick="closeFeatureNotification()">Close</button>
+    </div>
+
+    <div id="cartNotification" class="feature-notification">
+        <h3>Item Added</h3>
+        <p>Book has been added to your cart!</p>
+        <button onclick="closeCartNotification()">Close</button>
+    </div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartDisplay();
+        }
+
+        function addToCart(title, author, price, image) {
+            const existingItem = cart.find(item => item.title === title);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ title, author, price, image, quantity: 1 });
+            }
+            saveCart();
+            showCartNotification();
+        }
+
+        function updateCartQuantity(title, delta) {
+            const item = cart.find(item => item.title === title);
+            if (item) {
+                item.quantity = Math.max(0, item.quantity + delta);
+                if (item.quantity === 0) {
+                    cart = cart.filter(i => i.title !== title);
+                }
+                saveCart();
+            }
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            const cartCount = document.getElementById('cartCount');
+
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p>Your cart is empty</p>';
+                cartTotal.textContent = '₹0';
+                return;
+            }
+
+            cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.title}">
+                    <div class="cart-item-details">
+                        <div class="cart-item-title">${item.title}</div>
+                        <div class="cart-item-price">₹${item.price}</div>
+                        <div class="cart-quantity">
+                            <button onclick="updateCartQuantity('${item.title}', -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="updateCartQuantity('${item.title}', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            cartTotal.textContent = `₹${total}`;
+        }
+
+        function showCart() {
+            document.getElementById('cartOverlay').style.display = 'flex';
+            updateCartDisplay();
+        }
+
+        function closeCart() {
+            document.getElementById('cartOverlay').style.display = 'none';
+        }
+
+        function proceedToCheckout() {
+            if (cart.length > 0) {
+                window.location.href = 'checkout.html';
+            } else {
+                showFeatureInDevelopment('Checkout', 'Please add items to your cart before proceeding to checkout.');
+            }
+        }
+
+        function showFeatureInDevelopment(title, message) {
+            document.getElementById('featureTitle').textContent = title;
+            document.getElementById('featureMessage').textContent = message;
+            document.getElementById('featureNotification').style.display = 'block';
+            return false;
+        }
+
+        function closeFeatureNotification() {
+            document.getElementById('featureNotification').style.display = 'none';
+        }
+
+        function showCartNotification() {
+            document.getElementById('cartNotification').style.display = 'block';
+            setTimeout(closeCartNotification, 2000);
+        }
+
+        function closeCartNotification() {
+            document.getElementById('cartNotification').style.display = 'none';
+        }
+
+        function toggleDarkMode() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                themeIcon.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-mode');
+                themeIcon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        function checkTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeIcon.textContent = '☀️';
+            }
+        }
+
+        function showSearch() {
+            window.location.href = "index.html";
+            localStorage.setItem('showSearch', 'true');
+        }
+
+        function showLogin() {
+            window.location.href = "index.html";
+            localStorage.setItem('showLogin', 'true');
+        }
+
+        window.onload = function() {
+            checkTheme();
+            updateCartDisplay();
+            
+            const categoryCards = document.querySelectorAll('.category-card');
+            categoryCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    showFeatureInDevelopment('Category View', 'Our category specific views are being organized. Soon you will be able to browse books by category!');
+                });
+            });
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeFeatureNotification();
+                    closeCartNotification();
+                    closeCart();
+                }
+            });
+        };
+    </script>
+</body>
+</html>

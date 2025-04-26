@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Novelnest Bookstore</title>
+    <style>
+        :root {
+            --primary-color: #4169E1;
+            --text-color: #0a1635;
+            --bg-color: #f0f4ff;
+            --card-bg: #ffffff;
+            --secondary-text: #555;
+            --accent-color: #5d3fd3;
+            --shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .dark-mode {
+            --primary-color: #5d7de9;
+            --text-color: #e4e9f7;
+            --bg-color: #121a2e;
+            --card-bg: #1a2440;
+            --secondary-text: #bbc;
+            --accent-color: #7b5df7;
+            --shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+        }
+
+        .nav-icons button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: 1.5rem;
+            color: var(--text-color);
+            font-size: 1.3rem;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-icons button:hover {
+            transform: scale(1.1);
+        }
+
+        .checkout-container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 2.5rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            position: relative;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .checkout-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .checkout-header h1 {
+            color: var(--text-color);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .cart-summary, .checkout-form {
+            padding: 2rem;
+            border-radius: 8px;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .cart-summary:hover, .checkout-form:hover {
+            transform: translateY(-5px);
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            background-color: var(--bg-color);
+            border-radius: 8px;
+        }
+
+        .cart-item img {
+            width: 60px;
+            height: 80px;
+            object-fit: cover;
+            margin-right: 1rem;
+            border-radius: 4px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .cart-item-price {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .coupon-section {
+            margin: 1.5rem 0;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .coupon-section input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .coupon-section button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .coupon-section button:hover {
+            background-color: #4a2fb7;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.9rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .checkout-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            width: 100%;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .checkout-btn:hover {
+            background-color: #3050c0;
+            transform: translateY(-2px);
+        }
+
+        .payment-options {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            background-color: var(--bg-color);
+        }
+
+        .payment-option {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .payment-option input {
+            margin-right: 0.8rem;
+        }
+
+        .payment-option label {
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .reading-quote {
+            text-align: center;
+            margin: 2.5rem 0;
+            font-style: italic;
+            color: var(--secondary-text);
+            font-size: 1.2rem;
+            background-color: var(--bg-color);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .footer-section {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2.5rem;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .footer-section a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-section a:hover {
+            text-decoration: underline;
+        }
+
+        .book-image {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 180px;
+            height: auto;
+            opacity: 0.2;
+            z-index: 0;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .book-image {
+                width: 120px;
+            }
+
+            .checkout-container {
+                margin: 1.5rem;
+                padding: 1.5rem;
+            }
+
+            .checkout-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="📚"></i> Novelnest Bookstore
+        </div>
+        <div class="nav-icons">
+            <button onclick="toggleDarkMode()">
+                <span id="theme-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="checkout-container">
+        <img src="checkoutbookimage.jpg" alt="Decorative Book" class="book-image">
+        <div class="checkout-header">
+            <h1>Checkout</h1>
+            <p>Complete your purchase</p>
+        </div>
+        
+        <div class="reading-quote">
+            "A book is a dream you hold in your hands." - Neil Gaiman
+        </div>
+
+        <div class="checkout-grid">
+            <div class="cart-summary">
+                <h2>Your Order</h2>
+                <div id="order-items">
+                    <!-- Cart items will be loaded here -->
+                </div>
+                <div class="coupon-section">
+                    <input type="text" id="coupon-code" placeholder="Enter coupon code">
+                    <button onclick="applyCoupon()">Apply</button>
+                    <p id="coupon-message"></p>
+                </div>
+                <div class="order-total">
+                    <h3>Total: <span id="order-total">₹0.00</span></h3>
+                    <p id="discount-applied" style="color: green; display: none;"></p>
+                </div>
+            </div>
+            
+            <div class="checkout-form">
+                <h2>Shipping Information</h2>
+                <form id="shipping-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" id="state" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="zip">ZIP Code</label>
+                        <input type="text" id="zip" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="payment-options">
+                        <h3>Payment Method</h3>
+                        <div class="payment-option">
+                            <input type="radio" id="upi" name="payment" value="upi" checked>
+                            <label for="upi">UPI (Google Pay, PhonePe, etc.)</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="cod" name="payment" value="cod">
+                            <label for="cod">Cash on Delivery</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="card" name="payment" value="card">
+                            <label for="card">Credit/Debit Card</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="netbanking" name="payment" value="netbanking">
+                            <label for="netbanking">Net Banking</label>
+                        </div>
+                    </div>
+                    <button type="button" class="checkout-btn" onclick="processPayment()">Proceed to Payment</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h3>Thank You for Shopping with Us!</h3>
+            <p>Need help? <a href="mailto:support@novelnest.com">Contact Us</a></p>
+            <p>Keep shopping with us for more exciting books at <a href="index.html">Novelnest Bookstore</a></p>
+        </div>
+    </div>
+
+    <script>
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let discount = 0;
+        
+        function displayOrderItems() {
+            const orderItems = document.getElementById('order-items');
+            const orderTotal = document.getElementById('order-total');
+            
+            if (cart.length === 0) {
+                orderItems.innerHTML = '<p style="text-align: center; color: var(--secondary-text);">Your cart is empty</p>';
+                orderTotal.textContent = '₹0.00';
+                return;
+            }
+            
+            let html = '';
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                html += `
+                    <div class="cart-item">
+                        <img src="checkbook.jpg" alt="${item.title}">
+                        <div class="cart-item-details">
+                            <div class="cart-item-title">${item.title}</div>
+                            <div class="cart-item-price">₹${item.price} × ${item.quantity} = ₹${itemTotal.toFixed(2)}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            orderItems.innerHTML = html;
+            const total = subtotal * (1 - discount);
+            orderTotal.textContent = `₹${total.toFixed(2)}`;
+            
+            if (discount > 0) {
+                document.getElementById('discount-applied').textContent = 
+                    `${(discount * 100)}% discount applied (₹${(subtotal * discount).toFixed(2)})`;
+                document.getElementById('discount-applied').style.display = 'block';
+            }
+        }
+        
+        function applyCoupon() {
+            const couponCode = document.getElementById('coupon-code').value;
+            const message = document.getElementById('coupon-message');
+            
+            const coupons = {
+                'HDFC10': 0.10,
+                'SBI12': 0.12,
+                'ICICI15': 0.15,
+                'AXIS8': 0.08
+            };
+            
+            if (coupons[couponCode]) {
+                discount = coupons[couponCode];
+                message.textContent = `Coupon applied! ${(discount * 100)}% discount.`;
+                message.style.color = 'green';
+                displayOrderItems();
+            } else {
+                message.textContent = 'Invalid coupon code';
+                message.style.color = 'red';
+            }
+        }
+        
+        function processPayment() {
+            const form = document.getElementById('shipping-form');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            saveOrderToCSV();
+            
+            const deliveryDays = Math.floor(Math.random() * 5) + 1;
+            alert(`Thank you for your order! Stay tuned, your books will reach you in ${deliveryDays} days. Keep shopping with us for more interesting books!`);
+            window.location.href = 'index.html';
+        }
+        
+        function saveOrderToCSV() {
+            const orderData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                state: document.getElementById('state').value,
+                zip: document.getElementById('zip').value,
+                phone: document.getElementById('phone').value,
+                items: JSON.stringify(cart),
+                subtotal: calculateSubtotal(),
+                discount: discount * 100,
+                total: calculateSubtotal() * (1 - discount),
+                date: new Date().toISOString()
+            };
+            
+            let csvContent = '';
+            if (!localStorage.getItem('orders.csv')) {
+                csvContent = Object.keys(orderData).join(',') + '\n';
+            }
+            
+            csvContent += Object.values(orderData).map(v => 
+                typeof v === 'string' ? `"${v.replace('"', '""')}"` : v
+            ).join(',') + '\n';
+            
+            const existingData = localStorage.getItem('orders.csv') || '';
+            localStorage.setItem('orders.csv', existingData + csvContent);
+            
+            localStorage.removeItem('cart');
+        }
+        
+        function calculateSubtotal() {
+            return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        }
+
+        function toggleDarkMode() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function checkTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeIcon.textContent = '☀️';
+            } else {
+                themeIcon.textContent = '🌙';
+            }
+        }
+
+        window.onload = function() {
+            checkTheme();
+            displayOrderItems();
+        };
+    </script>
+</body>
+</html>
